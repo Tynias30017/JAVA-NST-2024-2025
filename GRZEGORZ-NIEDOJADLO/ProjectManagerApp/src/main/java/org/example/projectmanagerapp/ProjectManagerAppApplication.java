@@ -1,4 +1,4 @@
-package org.example.projectmanager;
+package org.example.projectmanagerapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

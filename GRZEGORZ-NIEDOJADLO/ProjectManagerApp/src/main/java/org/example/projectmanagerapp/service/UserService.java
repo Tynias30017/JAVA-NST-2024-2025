@@ -24,18 +24,19 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Użytkownik o ID " + id + " nie istnieje."));
+    }
+
     public User updateUser(Long id, User updatedUser) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setName(updatedUser.getName());
-            return userRepository.save(user);
-        } else {
-            throw new RuntimeException("Użytkownik o ID " + id + " nie istnieje.");
-        }
+        User user = getUserById(id);
+        user.setName(updatedUser.getName());
+        return userRepository.save(user);
     }
 
     public void deleteUser(Long id) {
+        getUserById(id);
         userRepository.deleteById(id);
     }
 }

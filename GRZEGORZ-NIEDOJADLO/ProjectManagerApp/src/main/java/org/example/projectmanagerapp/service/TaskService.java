@@ -5,7 +5,6 @@ import org.example.projectmanagerapp.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -24,22 +23,23 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    public Task getTaskById(Long id) {
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Zadanie o ID " + id + " nie istnieje."));
+    }
+
     public Task updateTask(Long id, Task updatedTask) {
-        Optional<Task> optionalTask = taskRepository.findById(id);
-        if (optionalTask.isPresent()) {
-            Task task = optionalTask.get();
-            task.setTitle(updatedTask.getTitle());
-            task.setDescription(updatedTask.getDescription());
-            task.setTaskType(updatedTask.getTaskType());
-            task.setProject(updatedTask.getProject());
-            task.setPriorityLevel(updatedTask.getPriorityLevel());
-            return taskRepository.save(task);
-        } else {
-            throw new RuntimeException("Zadanie o ID " + id + " nie istnieje.");
-        }
+        Task task = getTaskById(id);
+        task.setTitle(updatedTask.getTitle());
+        task.setDescription(updatedTask.getDescription());
+        task.setTaskType(updatedTask.getTaskType());
+        task.setProject(updatedTask.getProject());
+        task.setPriorityLevel(updatedTask.getPriorityLevel());
+        return taskRepository.save(task);
     }
 
     public void deleteTask(Long id) {
+        getTaskById(id);
         taskRepository.deleteById(id);
     }
 }

@@ -23,16 +23,30 @@ public class ProjectController {
     }
 
     @GetMapping
-    @Operation(summary = "Pobierz wszystkie projekty", description = "Zwraca listę wszystkich projektów")
+    @Operation(summary = "Pobierz wszystkie projekty")
     public List<Project> getAllProjects() {
         return projectService.getAllProjects();
     }
 
     @PostMapping
-    @Operation(summary = "Utwórz projekt", description = "Zapisuje nowy projekt w bazie danych")
+    @Operation(summary = "Utwórz projekt")
     public Project createProject(
-            @Parameter(description = "Obiekt projektu do zapisania", required = true)
-            @RequestBody Project project) {
+            @Parameter(description = "Dane projektu") @RequestBody Project project) {
         return projectService.createProject(project);
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Aktualizuj projekt po ID")
+    public Project updateProject(
+            @Parameter(description = "ID projektu") @PathVariable Long id,
+            @Parameter(description = "Zaktualizowany projekt") @RequestBody Project project) {
+        return projectService.updateProject(id, project);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Usuń projekt po ID")
+    public void deleteProject(
+            @Parameter(description = "ID projektu") @PathVariable Long id) {
+        projectService.deleteProject(id);
     }
 }

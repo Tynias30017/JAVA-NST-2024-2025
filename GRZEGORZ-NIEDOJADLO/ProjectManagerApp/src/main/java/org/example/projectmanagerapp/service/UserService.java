@@ -5,6 +5,7 @@ import org.example.projectmanagerapp.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -21,5 +22,20 @@ public class UserService {
 
     public User createUser(User user) {
         return userRepository.save(user);
+    }
+
+    public User updateUser(Long id, User updatedUser) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setName(updatedUser.getName());
+            return userRepository.save(user);
+        } else {
+            throw new RuntimeException("Użytkownik o ID " + id + " nie istnieje.");
+        }
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }

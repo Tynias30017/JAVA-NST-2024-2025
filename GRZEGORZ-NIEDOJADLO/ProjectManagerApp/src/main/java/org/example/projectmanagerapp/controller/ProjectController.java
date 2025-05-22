@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.projectmanagerapp.entity.project.Project;
-import org.example.projectmanagerapp.repository.ProjectRepository;
+import org.example.projectmanagerapp.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,20 +15,24 @@ import java.util.List;
 @Tag(name = "Projects", description = "Operacje na projektach")
 public class ProjectController {
 
+    private final ProjectService projectService;
+
     @Autowired
-    private ProjectRepository projectRepository;
+    public ProjectController(ProjectService projectService) {
+        this.projectService = projectService;
+    }
 
     @GetMapping
-    @Operation(summary = "Pobierz wszystkie projekty", description = "Zwraca listę wszystkich projektów zapisanych w systemie")
+    @Operation(summary = "Pobierz wszystkie projekty", description = "Zwraca listę wszystkich projektów")
     public List<Project> getAllProjects() {
-        return projectRepository.findAll();
+        return projectService.getAllProjects();
     }
 
     @PostMapping
-    @Operation(summary = "Utwórz nowy projekt", description = "Zapisuje nowy projekt do bazy danych")
+    @Operation(summary = "Utwórz projekt", description = "Zapisuje nowy projekt w bazie danych")
     public Project createProject(
             @Parameter(description = "Obiekt projektu do zapisania", required = true)
             @RequestBody Project project) {
-        return projectRepository.save(project);
+        return projectService.createProject(project);
     }
 }

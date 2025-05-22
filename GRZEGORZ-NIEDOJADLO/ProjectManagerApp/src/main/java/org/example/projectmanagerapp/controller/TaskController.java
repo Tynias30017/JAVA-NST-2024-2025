@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.projectmanagerapp.entity.task.Task;
-import org.example.projectmanagerapp.repository.TaskRepository;
+import org.example.projectmanagerapp.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,27 +12,27 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
-@Tag(name = "Tasks", description = "Operacje na zadaniach (Tasks)")
+@Tag(name = "Tasks", description = "Operacje na zadaniach")
 public class TaskController {
 
-    private final TaskRepository taskRepository;
+    private final TaskService taskService;
 
     @Autowired
-    public TaskController(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
     @GetMapping
-    @Operation(summary = "Pobierz wszystkie zadania", description = "Zwraca listę wszystkich zadań zapisanych w bazie")
+    @Operation(summary = "Pobierz wszystkie zadania", description = "Zwraca listę zadań")
     public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+        return taskService.getAllTasks();
     }
 
     @PostMapping
-    @Operation(summary = "Utwórz nowe zadanie", description = "Tworzy nowe zadanie na podstawie danych wejściowych")
+    @Operation(summary = "Utwórz zadanie", description = "Zapisuje nowe zadanie w bazie danych")
     public Task createTask(
             @Parameter(description = "Obiekt zadania do zapisania", required = true)
             @RequestBody Task task) {
-        return taskRepository.save(task);
+        return taskService.createTask(task);
     }
 }

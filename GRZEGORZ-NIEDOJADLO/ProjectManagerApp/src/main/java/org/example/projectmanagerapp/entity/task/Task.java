@@ -19,11 +19,11 @@ public class Task {
 
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "task_type")
+    @Column(name = "task_type", nullable = false)
     private TaskType taskType;
 
     @ManyToOne

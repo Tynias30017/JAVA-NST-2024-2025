@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    image: projectmanagerapp:latest
+    container_name: projectmanagerapp
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=${SPRING_JPA_HIBERNATE_DDL_AUTO}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+  db:
+    image: postgres:15-alpine
+    container_name: projectmanagerapp-db
+    environment:
+      - POSTGRES_DB=projectdb
+      - POSTGRES_USER=projectuser
+      - POSTGRES_PASSWORD=projectpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
+

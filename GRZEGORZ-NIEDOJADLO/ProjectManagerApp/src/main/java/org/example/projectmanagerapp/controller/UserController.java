@@ -8,6 +8,7 @@ import org.example.projectmanagerapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class UserController {
     @Operation(summary = "Utwórz użytkownika")
     public User createUser(
             @Parameter(description = "Dane nowego użytkownika", required = true)
-            @RequestBody User user) {
+            @Valid @RequestBody User user) {
         return userService.createUser(user);
     }
 
@@ -40,7 +41,7 @@ public class UserController {
     @Operation(summary = "Aktualizuj użytkownika po ID")
     public User updateUser(
             @Parameter(description = "ID użytkownika") @PathVariable Long id,
-            @Parameter(description = "Zaktualizowane dane") @RequestBody User user) {
+            @Parameter(description = "Zaktualizowane dane") @Valid @RequestBody User user) {
         return userService.updateUser(id, user);
     }
 
@@ -49,5 +50,13 @@ public class UserController {
     public void deleteUser(
             @Parameter(description = "ID użytkownika") @PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Pobierz użytkownika po ID")
+    public User getUserById(
+            @Parameter(description = "ID użytkownika", required = true)
+            @PathVariable Long id) {
+        return userService.getUserById(id);
     }
 }

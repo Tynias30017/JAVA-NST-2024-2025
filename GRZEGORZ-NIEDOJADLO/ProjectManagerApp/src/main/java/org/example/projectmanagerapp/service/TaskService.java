@@ -1,5 +1,6 @@
 package org.example.projectmanagerapp.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.projectmanagerapp.entity.task.Task;
 import org.example.projectmanagerapp.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class TaskService {
 
     public Task getTaskById(Long id) {
         return taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Zadanie o ID " + id + " nie istnieje."));
+                .orElseThrow(() -> new EntityNotFoundException("Zadanie o ID " + id + " nie istnieje."));
     }
 
     public Task updateTask(Long id, Task updatedTask) {

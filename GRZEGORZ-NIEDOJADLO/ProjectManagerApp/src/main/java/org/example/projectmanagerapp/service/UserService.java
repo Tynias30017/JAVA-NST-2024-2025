@@ -3,6 +3,7 @@ package org.example.projectmanagerapp.service;
 import org.example.projectmanagerapp.entity.user.User;
 import org.example.projectmanagerapp.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +27,7 @@ public class UserService {
 
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Użytkownik o ID " + id + " nie istnieje."));
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
     }
 
     public User updateUser(Long id, User updatedUser) {

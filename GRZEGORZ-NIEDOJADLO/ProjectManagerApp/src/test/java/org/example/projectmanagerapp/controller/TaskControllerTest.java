@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class TaskControllerIntegrationTest {
+class TaskControllerTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private TaskRepository taskRepository;

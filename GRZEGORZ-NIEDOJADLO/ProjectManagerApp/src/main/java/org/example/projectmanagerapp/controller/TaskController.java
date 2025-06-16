@@ -3,6 +3,7 @@ package org.example.projectmanagerapp.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.example.projectmanagerapp.entity.task.Task;
 import org.example.projectmanagerapp.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class TaskController {
     @PostMapping
     @Operation(summary = "Utwórz zadanie")
     public Task createTask(
-            @Parameter(description = "Dane zadania") @RequestBody Task task) {
+            @Parameter(description = "Dane zadania") @Valid @RequestBody Task task) {
         return taskService.createTask(task);
     }
 
@@ -39,8 +40,14 @@ public class TaskController {
     @Operation(summary = "Aktualizuj zadanie po ID")
     public Task updateTask(
             @Parameter(description = "ID zadania") @PathVariable Long id,
-            @Parameter(description = "Zaktualizowane dane") @RequestBody Task task) {
+            @Parameter(description = "Zaktualizowane dane") @Valid @RequestBody Task task) {
         return taskService.updateTask(id, task);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Pobierz zadanie po ID")
+    public Task getTaskById(@PathVariable Long id) {
+        return taskService.getTaskById(id);
     }
 
     @DeleteMapping("/{id}")
